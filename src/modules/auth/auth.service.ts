@@ -27,6 +27,7 @@ export class AuthService {
       email: dto.email,
       password: hashedPassword,
       phoneNumber: dto.phoneNumber,
+      role: dto.role,
     });
 
     return this.signToken(user.id, user.email, user.role);

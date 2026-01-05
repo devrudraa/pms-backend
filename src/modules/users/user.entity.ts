@@ -42,8 +42,10 @@ export class User {
   })
   role: UserRole;
 
-  @Column({ default: true })
-  isActive: boolean;
+  // By Default false, once the user has completed onboarding and
+  // Admin has verified make it true!
+  @Column({ default: false })
+  isVerified: boolean;
 
   // Timestamps
   @CreateDateColumn()

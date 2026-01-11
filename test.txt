@@ -1,0 +1,15 @@
+{
+    id: string,
+    name: string,
+    address: string,
+    type: rent | sell,
+    price: number[2],
+    images: string[],
+    unit: {
+        bedroom: number,
+        bathroom: number,
+        size: number,
+        parkingSpace: boolean,
+        furnished: boolean,
+    }
+}

@@ -1,10 +1,12 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { PropertyModule } from './modules/property/property.module';
 import { TenantModule } from './modules/tenant/tenant.module';
+import { UnitModule } from './modules/unit/unit.module';
+import { UsersModule } from './modules/users/users.module';
 
 @Module({
   imports: [
@@ -21,6 +23,8 @@ import { TenantModule } from './modules/tenant/tenant.module';
     UsersModule,
     AuthModule,
     TenantModule,
+    PropertyModule,
+    UnitModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -6,7 +6,11 @@ import {
   UpdateDateColumn,
   DeleteDateColumn,
   Index,
+  OneToMany,
+  OneToOne,
 } from 'typeorm';
+import { Property } from '../property/property.entity';
+import { Unit } from '../unit/unit.entity';
 
 export enum UserRole {
   LANDLORD = 'landlord',
@@ -46,6 +50,18 @@ export class User {
   // Admin has verified make it true!
   @Column({ default: false })
   isVerified: boolean;
+
+  /* Properties owned */
+  @OneToMany(() => Property, (property) => property.owner)
+  ownedProperties: Property[];
+
+  /* Properties managed */
+  @OneToMany(() => Property, (property) => property.manager)
+  managedProperties: Property[];
+
+  /* Unit occupied as tenant */
+  @OneToOne(() => Unit, (unit) => unit.tenant)
+  rentedUnit: Unit;
 
   // Timestamps
   @CreateDateColumn()

@@ -18,8 +18,12 @@ export class TenantController {
   constructor(private readonly tenantService: TenantService) {}
 
   @Get('profile')
-  getProfile(@CurrentUser() user: JwtPayload) {
-    return this.tenantService.getTenantProfile(user.email);
+  async getProfile(@CurrentUser() user: JwtPayload) {
+    console.log('USER: ', user);
+    const data = await this.tenantService.getTenantProfile(user.email);
+
+    console.log('DTAT: ', data);
+    return data;
   }
 
   @Put('profile')

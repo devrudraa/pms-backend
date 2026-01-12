@@ -27,6 +27,14 @@ export class UsersService {
   findById(id: string) {
     return this.usersRepository.findOne({
       where: { id },
+      relations: ['ownedProperties', 'managedProperties'],
+    });
+  }
+
+  findByIdOrUndefined(id: string | null) {
+    if (!id) return undefined;
+    return this.usersRepository.findOne({
+      where: { id },
     });
   }
 

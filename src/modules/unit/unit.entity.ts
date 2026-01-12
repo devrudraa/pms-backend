@@ -6,7 +6,7 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Property } from '../property/property.entity';
+import { PropertyEntity } from '../property/property.entity';
 import { User } from '../users/user.entity';
 import { UnitPricing } from './unit-pricing.entity';
 
@@ -47,8 +47,8 @@ export class Unit {
   pricing: UnitPricing;
 
   /* Property */
-  @ManyToOne(() => Property, (property) => property.units)
-  property: Property;
+  @ManyToOne(() => PropertyEntity, (property) => property.units)
+  property: PropertyEntity;
 
   /* Tenant */
   @OneToOne(() => User, { nullable: true })

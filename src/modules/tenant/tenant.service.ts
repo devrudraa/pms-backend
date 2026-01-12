@@ -41,7 +41,7 @@ export class TenantService {
   }
 
   async getTenantProfile(email: string) {
-    return this.tenantRepo.findOne({
+    return this.tenantRepo.findOneOrFail({
       where: { user: { email: email } },
     });
   }

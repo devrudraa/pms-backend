@@ -9,7 +9,7 @@ import {
   OneToMany,
   OneToOne,
 } from 'typeorm';
-import { Property } from '../property/property.entity';
+import { PropertyEntity } from '../property/property.entity';
 import { Unit } from '../unit/unit.entity';
 
 export enum UserRole {
@@ -52,12 +52,12 @@ export class User {
   isVerified: boolean;
 
   /* Properties owned */
-  @OneToMany(() => Property, (property) => property.owner)
-  ownedProperties: Property[];
+  @OneToMany(() => PropertyEntity, (property) => property.owner)
+  ownedProperties: PropertyEntity[];
 
   /* Properties managed */
-  @OneToMany(() => Property, (property) => property.manager)
-  managedProperties: Property[];
+  @OneToMany(() => PropertyEntity, (property) => property.manager)
+  managedProperties: PropertyEntity[];
 
   /* Unit occupied as tenant */
   @OneToOne(() => Unit, (unit) => unit.tenant)

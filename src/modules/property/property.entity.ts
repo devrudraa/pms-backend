@@ -16,12 +16,19 @@ export enum ListingType {
   RENT = 'RENT',
 }
 
+export enum PropertyStatus {
+  DRAFT = 'DRAFT',
+  ACTIVE = 'ACTIVE',
+}
+
 @Entity('properties')
-export class Property {
+export class PropertyEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  /* ===== REQUIRED AT CREATION ===== */
+
+  @Column({ length: 120 })
   name: string;
 
   @Column({
@@ -30,40 +37,56 @@ export class Property {
   })
   listingType: ListingType;
 
-  // (House, Apartment, Room, etc.)
-  @Column()
-  propertyType: string;
-
-  // HTML Description
-  @Column({ type: 'text' })
-  description: string;
-
-  // Address
-  @Column()
-  address: string;
-
-  @Column()
-  region: string;
-
-  @Column()
-  town: string;
-
-  @Column()
-  suburb: string;
-
-  /* Owner */
-  @ManyToOne(() => User, (user) => user.ownedProperties)
+  @ManyToOne(() => User, (user) => user.ownedProperties, {
+    nullable: false,
+  })
   owner: User;
 
+  @Column({
+    type: 'enum',
+    enum: PropertyStatus,
+    default: PropertyStatus.DRAFT,
+  })
+  status: PropertyStatus;
+
+  /* ===== OPTIONAL (DRAFT SAFE) ===== */
+
+  // (House, Apartment, Room, etc.)
+  @Column({ nullable: true })
+  propertyType?: string;
+
+  // HTML Description
+  @Column({ type: 'text', nullable: true })
+  description?: string;
+
+  // Address
+  @Column({ nullable: true })
+  address?: string;
+
+  @Column({ nullable: true })
+  region?: string;
+
+  @Column({ nullable: true })
+  town?: string;
+
+  @Column({ nullable: true })
+  suburb?: string;
+
   /* Manager */
-  @ManyToOne(() => User, (user) => user.managedProperties, { nullable: true })
-  manager?: User;
+  @ManyToOne(() => User, (user) => user.managedProperties, {
+    nullable: true,
+  })
+  manager: User | null;
 
   /* Units */
-  @OneToMany(() => Unit, (unit) => unit.property, { cascade: true })
-  units: Unit[];
+  @OneToMany(() => Unit, (unit) => unit.property, {
+    cascade: false,
+    nullable: true,
+  })
+  units?: Unit[];
 
-  // TIMESTAMPS
+  /* ===== TIMESTAMPS ===== */
+
   @CreateDateColumn()
   createdAt: Date;
 

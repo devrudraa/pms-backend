@@ -32,23 +32,21 @@ export class PropertyService {
     /**
      * 3. Update property entity
      */
-    const property = this.propertyRepository.update(
-      {
-        id: existingProperty.id,
-      },
-      {
-        name: dto.name,
-        description: dto.description,
-        address: dto.address,
-        region: dto.region,
-        town: dto.town,
-        suburb: dto.suburb,
-        propertyType: dto.propertyType,
-        manager: dto.managerId ? { id: dto.managerId } : null,
-      },
-    );
+    const updateData: Partial<PropertyEntity> = {};
 
-    return property;
+    if (dto.name !== undefined) updateData.name = dto.name;
+    if (dto.description !== undefined) updateData.description = dto.description;
+    if (dto.address !== undefined) updateData.address = dto.address;
+    if (dto.region !== undefined) updateData.region = dto.region;
+    if (dto.town !== undefined) updateData.town = dto.town;
+    if (dto.suburb !== undefined) updateData.suburb = dto.suburb;
+    if (dto.propertyType !== undefined)
+      updateData.propertyType = dto.propertyType;
+
+    return await this.propertyRepository.update(existingProperty.id, {
+      ...updateData,
+      manager: dto.managerId ? { id: dto.managerId } : null,
+    });
   }
 
   async createProperty(dto: CreatePropertyDTO, currentUser: JwtPayload) {

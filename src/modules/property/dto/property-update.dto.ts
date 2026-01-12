@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
-  IsNotEmpty,
   IsOptional,
   IsString,
   IsUUID,
@@ -14,11 +13,11 @@ export class UpdatePropertyDTO {
     description: 'Human-readable name of the property',
     example: 'Luxury Apartment Downtown',
   })
+  @IsOptional()
   @IsString()
-  @IsNotEmpty()
   @MinLength(3)
   @MaxLength(120)
-  name: string;
+  name?: string;
 
   // @ApiProperty({
   //   description: 'Defines whether the property is listed for sale or rent',
@@ -34,61 +33,61 @@ export class UpdatePropertyDTO {
     example:
       'A fully furnished 3BHK apartment with parking, gym, and power backup.',
   })
+  @IsOptional()
   @IsString()
-  @IsNotEmpty()
   @MinLength(10)
   @MaxLength(2000)
-  description: string;
+  description?: string;
 
   @ApiProperty({
     description: 'Full street address of the property',
     example: '123 MG Road, Near Metro Station',
   })
+  @IsOptional()
   @IsString()
-  @IsNotEmpty()
   @MinLength(5)
   @MaxLength(255)
-  address: string;
+  address?: string;
 
   @ApiProperty({
     description: 'Administrative region or state where the property is located',
     example: 'Karnataka',
   })
+  @IsOptional()
   @IsString()
-  @IsNotEmpty()
   @MinLength(2)
   @MaxLength(100)
-  region: string;
+  region?: string;
 
   @ApiProperty({
     description: 'Town or city in which the property is located',
     example: 'Bangalore',
   })
+  @IsOptional()
   @IsString()
-  @IsNotEmpty()
   @MinLength(2)
   @MaxLength(100)
-  town: string;
+  town?: string;
 
   @ApiProperty({
     description: 'Local suburb or area name of the property',
     example: 'Indiranagar',
   })
+  @IsOptional()
   @IsString()
-  @IsNotEmpty()
   @MinLength(2)
   @MaxLength(100)
-  suburb: string;
+  suburb?: string;
 
   @ApiProperty({
     description: 'House, Apartment, Room, etc.',
     example: 'Flat',
   })
+  @IsOptional()
   @IsString()
-  @IsNotEmpty()
   @MinLength(2)
   @MaxLength(100)
-  propertyType: string;
+  propertyType?: string;
 
   // OWNERSHIP & CONTROL
   //! BY DEFAULT WE WILL SELECT THE LOGGED IN USER AS OWNER
@@ -109,7 +108,7 @@ export class UpdatePropertyDTO {
   })
   @IsOptional()
   @IsUUID()
-  managerId: string | null;
+  managerId?: string;
 
   // PROPERTY UNITS
   // @ApiProperty({

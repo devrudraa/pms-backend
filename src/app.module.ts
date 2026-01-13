@@ -2,11 +2,11 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AuthModule } from './modules/auth/auth.module';
 import { PropertyModule } from './modules/property/property.module';
 import { TenantModule } from './modules/tenant/tenant.module';
 import { UnitModule } from './modules/unit/unit.module';
-import { UsersModule } from './modules/users/users.module';
+import { AuthModule } from './public-website/auth/auth.module';
+import { PublicWebsiteModule } from './public-website/public.module';
 
 @Module({
   imports: [
@@ -20,7 +20,7 @@ import { UsersModule } from './modules/users/users.module';
       autoLoadEntities: true,
       synchronize: true, // IMPORTANT: keep false in real projects
     }),
-    UsersModule,
+    PublicWebsiteModule,
     AuthModule,
     TenantModule,
     PropertyModule,

@@ -1,0 +1,8 @@
+// src/dashboard/dashboard.module.ts
+import { Module } from '@nestjs/common';
+import { AuthModule } from './auth/auth.module';
+
+@Module({
+  imports: [AuthModule],
+})
+export class PublicWebsiteModule {}

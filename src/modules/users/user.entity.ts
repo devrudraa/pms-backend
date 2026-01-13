@@ -39,6 +39,16 @@ export class User {
   @Column()
   phoneNumber: string;
 
+  @Column({ type: 'date' })
+  dob: string;
+
+  @Column({ type: 'varchar', nullable: true })
+  address: string;
+
+  // TODO: add these columns
+  // ID/Passport Number
+  // ID attachment
+
   @Column({
     type: 'enum',
     enum: UserRole,

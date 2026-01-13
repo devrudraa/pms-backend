@@ -16,9 +16,18 @@ export class TenantProfile {
   @JoinColumn()
   user: User;
 
-  @Column({ nullable: true })
-  occupation: string;
+  @Column()
+  employmentStatus: string;
 
-  @Column({ nullable: true })
-  emergencyContact: string;
+  @Column()
+  employerName: string;
+
+  @Column({ type: 'varchar', nullable: true })
+  monthlyIncome: string | null;
+
+  @Column()
+  emergencyContactName: string;
+
+  @Column()
+  emergencyContactNumber: string;
 }

@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
+  IsDateString,
   IsEmail,
   IsEnum,
   IsPhoneNumber,
@@ -24,6 +25,13 @@ export class RegisterDto {
   @ApiProperty({ example: '********', minLength: 6 })
   @MinLength(6)
   password: string;
+
+  @ApiProperty({
+    example: '1990-01-15T00:00:00Z',
+    description: 'ISO8601 timestamp',
+  })
+  @IsDateString()
+  dob: string;
 
   @ApiProperty({ example: '+264 811234567' })
   @IsPhoneNumber('NA')

@@ -5,8 +5,8 @@ import { AppService } from './app.service';
 import { PropertyModule } from './modules/property/property.module';
 import { TenantModule } from './modules/tenant/tenant.module';
 import { UnitModule } from './modules/unit/unit.module';
-import { AuthModule } from './public-website/auth/auth.module';
-import { PublicWebsiteModule } from './public-website/public.module';
+import { AuthModule } from './website/auth/auth.module';
+import { PublicWebsiteModule } from './website/public.module';
 
 @Module({
   imports: [

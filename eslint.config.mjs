@@ -6,7 +6,13 @@ import tseslint from 'typescript-eslint';
 import { defineConfig } from 'eslint/config';
 
 export default defineConfig(
-  { ignores: ['eslint.config.mjs', 'ecosystem.config.mjs'] },
+  {
+    ignores: [
+      'eslint.config.mjs',
+      'ecosystem.config.mjs',
+      'ecosystem.staging.cjs',
+    ],
+  },
   {
     plugins: {
       '@typescript-eslint': tseslint.plugin,

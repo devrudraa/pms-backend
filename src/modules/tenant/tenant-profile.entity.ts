@@ -5,16 +5,16 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { User } from '../users/user.entity';
+import { UserEntity } from '../users/user.entity';
 
 @Entity('tenant_profiles')
 export class TenantProfile {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @OneToOne(() => User, { onDelete: 'CASCADE' })
+  @OneToOne(() => UserEntity, { onDelete: 'CASCADE' })
   @JoinColumn()
-  user: User;
+  user: UserEntity;
 
   @Column()
   employmentStatus: string;

@@ -7,7 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { PropertyEntity } from '../property/property.entity';
-import { User } from '../users/user.entity';
+import { UserEntity } from '../users/user.entity';
 import { UnitPricing } from './unit-pricing.entity';
 
 @Entity('units')
@@ -51,7 +51,7 @@ export class Unit {
   property: PropertyEntity;
 
   /* Tenant */
-  @OneToOne(() => User, { nullable: true })
+  @OneToOne(() => UserEntity, { nullable: true })
   @JoinColumn()
-  tenant?: User;
+  tenant?: UserEntity;
 }

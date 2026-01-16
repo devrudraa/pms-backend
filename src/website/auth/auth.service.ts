@@ -1,9 +1,9 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { RegisterDto } from './dto/register.dto';
-import { LoginDto } from './dto/login.dto';
 import { UsersService } from 'src/modules/users/users.service';
+import { LoginDto, LoginResDTO } from './dto/login.dto';
+import { RegisterDto } from './dto/register.dto';
 
 @Injectable()
 export class AuthService {
@@ -12,7 +12,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async register(dto: RegisterDto) {
+  async register(dto: RegisterDto): Promise<string> {
     const existingUser = await this.usersService.findByEmail(dto.email);
 
     if (existingUser) {
@@ -21,20 +21,21 @@ export class AuthService {
 
     const hashedPassword = await bcrypt.hash(dto.password, 10);
 
-    const user = await this.usersService.create({
+    // const user =
+    await this.usersService.create({
       firstName: dto.firstName,
       lastName: dto.lastName,
       email: dto.email,
       password: hashedPassword,
       phoneNumber: dto.phoneNumber,
       role: dto.role,
-      dob: dto.dob,
     });
 
-    return this.signToken(user.id, user.email, user.role);
+    // return this.signToken(user.id, user.email, user.role);
+    return 'User created successfully';
   }
 
-  async login(dto: LoginDto) {
+  async login(dto: LoginDto): Promise<LoginResDTO> {
     const user = await this.usersService.findByEmail(dto.email);
 
     if (!user) {
@@ -46,7 +47,13 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    return this.signToken(user.id, user.email, user.role);
+    return {
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      image: 'todo',
+      token: this.signToken(user.id, user.email, user.role).accessToken,
+    };
   }
 
   private signToken(userId: string, email: string, role: string) {

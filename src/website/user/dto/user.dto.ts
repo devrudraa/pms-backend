@@ -23,6 +23,12 @@ export class UserResponseDto {
   lastName: string;
 
   @ApiProperty({
+    example: '1990-05-15T00:00:00.000Z',
+    nullable: true,
+  })
+  dob: string | null;
+
+  @ApiProperty({
     example: '+1-555-123-4567',
   })
   phoneNumber: string;

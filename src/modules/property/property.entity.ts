@@ -9,7 +9,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Unit } from '../unit/unit.entity';
-import { User } from '../users/user.entity';
+import { UserEntity } from '../users/user.entity';
 
 export enum ListingType {
   SELL = 'SELL',
@@ -37,10 +37,10 @@ export class PropertyEntity {
   })
   listingType: ListingType;
 
-  @ManyToOne(() => User, (user) => user.ownedProperties, {
+  @ManyToOne(() => UserEntity, (user) => user.ownedProperties, {
     nullable: false,
   })
-  owner: User;
+  owner: UserEntity;
 
   @Column({
     type: 'enum',
@@ -73,10 +73,10 @@ export class PropertyEntity {
   suburb?: string;
 
   /* Manager */
-  @ManyToOne(() => User, (user) => user.managedProperties, {
+  @ManyToOne(() => UserEntity, (user) => user.managedProperties, {
     nullable: true,
   })
-  manager: User | null;
+  manager: UserEntity | null;
 
   /* Units */
   @OneToMany(() => Unit, (unit) => unit.property, {

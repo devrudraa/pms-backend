@@ -19,7 +19,7 @@ export enum UserRole {
 }
 
 @Entity('users')
-export class User {
+export class UserEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -39,11 +39,11 @@ export class User {
   @Column()
   phoneNumber: string;
 
-  @Column({ type: 'date' })
-  dob: string;
+  @Column({ type: 'date', nullable: true })
+  dob: string | null;
 
   @Column({ type: 'varchar', nullable: true })
-  address: string;
+  address: string | null;
 
   // TODO: add these columns
   // ID/Passport Number

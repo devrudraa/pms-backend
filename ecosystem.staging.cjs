@@ -2,11 +2,16 @@ module.exports = {
   apps: [
     {
       name: 'backend-staging',
-      script: 'dist/main.js',
-      env: {
-        NODE_ENV: 'staging',
-        PORT: 4001,
-      },
+
+      script: 'npm',
+      args: 'run start',
+
+      cwd: '/var/www/development-pms/pms-backend',
+      instances: 1,
+      exec_mode: 'fork',
+      interpreter: 'none',
+
+      env_file: '.env.staging',
     },
   ],
 };

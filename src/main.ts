@@ -54,8 +54,8 @@ async function bootstrap() {
 
   SwaggerModule.setup('/api/docs/website', app, dashboardDocument);
 
-  await app.listen(3000);
-  console.log('App is running at: ', await app.getUrl());
+  const port = process.env.PORT || 3000;
+  await app.listen(port);
 }
 
 void bootstrap();

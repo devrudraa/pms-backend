@@ -7,18 +7,29 @@ import { TenantModule } from './modules/tenant/tenant.module';
 import { UnitModule } from './modules/unit/unit.module';
 import { AuthModule } from './website/auth/auth.module';
 import { PublicWebsiteModule } from './website/public.module';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost', // use "postgres" if running inside Docker
-      port: 5432,
-      username: 'postgres',
-      password: 'admin',
-      database: 'pms-dev',
-      autoLoadEntities: true,
-      synchronize: true, // IMPORTANT: keep false in real projects
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: `.env.${process.env.NODE_ENV || 'development'}`,
+    }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        type: 'postgres',
+        host: config.get('DB_HOST'),
+        port: config.get<number>('DB_PORT'),
+        username: config.get('DB_USER'),
+        password: config.get('DB_PASSWORD'),
+        database: config.get('DB_NAME'),
+        autoLoadEntities: true,
+
+        // VERY IMPORTANT
+        synchronize: config.get('NODE_ENV') !== 'production',
+      }),
     }),
     PublicWebsiteModule,
     AuthModule,

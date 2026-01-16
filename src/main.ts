@@ -5,6 +5,10 @@ import { AppModule } from './app.module';
 import { PublicWebsiteModule } from './website/public.module';
 
 async function bootstrap() {
+  console.log(process.env.DB_PASSWORD);
+  console.log(process.env.DB_USER);
+  console.log(process.env.DB_PORT);
+  console.log(process.env.DB_NAME);
   const app = await NestFactory.create(AppModule);
 
   app.useGlobalPipes(

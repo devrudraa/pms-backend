@@ -17,8 +17,14 @@ export enum ListingType {
 }
 
 export enum PropertyStatus {
+  // If user created and did not activated it
   DRAFT = 'DRAFT',
+  // If it is active and all the units have tenant
+  // Active means it is not listed for public view only for the user to manage through dashboard
+  // Either set manually or all the units are occupied
   ACTIVE = 'ACTIVE',
+  // User defined listed or if any one unit is empty
+  LISTED = 'LISTED',
 }
 
 @Entity('properties')
@@ -29,7 +35,7 @@ export class PropertyEntity {
   /* ===== REQUIRED AT CREATION ===== */
 
   @Column({ length: 120 })
-  name: string;
+  title: string;
 
   @Column({
     type: 'enum',
@@ -52,6 +58,13 @@ export class PropertyEntity {
   /* ===== OPTIONAL (DRAFT SAFE) ===== */
 
   // (House, Apartment, Room, etc.)
+  @Column({
+    type: 'text',
+    array: true,
+    default: () => 'ARRAY[]::text[]',
+  })
+  images: string[];
+
   @Column({ nullable: true })
   propertyType?: string;
 

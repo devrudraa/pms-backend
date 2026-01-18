@@ -10,14 +10,14 @@ import {
 export class UpdatePropertyDTO {
   // PROPERTY DETAILS
   @ApiProperty({
-    description: 'Human-readable name of the property',
+    description: 'Human-readable title of the property',
     example: 'Luxury Apartment Downtown',
   })
   @IsOptional()
   @IsString()
   @MinLength(3)
   @MaxLength(120)
-  name?: string;
+  title?: string;
 
   // @ApiProperty({
   //   description: 'Defines whether the property is listed for sale or rent',

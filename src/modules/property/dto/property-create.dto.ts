@@ -10,14 +10,14 @@ import { ListingType } from '../property.entity';
 
 export class CreatePropertyDTO {
   @ApiProperty({
-    description: 'Human-readable name of the property',
+    description: 'Human-readable title of the property',
     example: 'Luxury Apartment Downtown',
   })
   @IsString()
   @IsNotEmpty()
   @MinLength(3)
   @MaxLength(120)
-  name: string;
+  title: string;
 
   @ApiProperty({
     description: 'Listing type of the property',

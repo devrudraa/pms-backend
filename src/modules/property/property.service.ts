@@ -34,7 +34,7 @@ export class PropertyService {
      */
     const updateData: Partial<PropertyEntity> = {};
 
-    if (dto.name !== undefined) updateData.name = dto.name;
+    if (dto.title !== undefined) updateData.title = dto.title;
     if (dto.description !== undefined) updateData.description = dto.description;
     if (dto.address !== undefined) updateData.address = dto.address;
     if (dto.region !== undefined) updateData.region = dto.region;
@@ -71,7 +71,7 @@ export class PropertyService {
      * Create and persist property
      */
     const property = this.propertyRepository.create({
-      name: dto.name,
+      title: dto.title,
       listingType: dto.listingType,
       owner: { id: currentUser.userId },
     });
@@ -85,7 +85,7 @@ export class PropertyService {
       where: {
         id: id,
       },
-      relations: ['owner', 'manager'],
+      relations: ['owner', 'manager', 'units', 'units.tenant'],
     });
   }
 

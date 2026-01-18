@@ -13,6 +13,6 @@ export class UnitPricing {
   @Column()
   utilitiesBreakdown: string;
 
-  @Column({ default: 'INR' })
+  @Column({ default: 'N$' })
   currency: string;
 }

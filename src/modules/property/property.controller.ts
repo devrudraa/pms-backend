@@ -48,7 +48,9 @@ export class PropertyController {
     type: GetPropertyByIdResponseDto,
   })
   @ApiNotFoundResponse({ description: 'Property not found' })
-  async getPropertyById(id: string) {
+  async getPropertyById(@Param('id', ParseUUIDPipe) id: string) {
+    console.log('this id: ', id);
+
     return await this.propertyService.getPropertyById(id);
   }
 

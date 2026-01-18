@@ -16,7 +16,7 @@ import { UserRole } from 'src/modules/users/user.entity';
 import { RolesGuard } from 'src/jwt/roles.guard';
 import { TenantUpdateDTO } from './dto/update-tenant.dto';
 
-@ApiTags('Public Tenant')
+@ApiTags('Website Tenant')
 @Controller('tenant')
 export class TenantController {
   constructor(private readonly tenantService: TenantService) {}

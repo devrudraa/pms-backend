@@ -12,7 +12,7 @@ import type { JwtPayload } from 'src/jwt/jwt.strategy';
 import { UserService } from './user.service';
 import { UserResponseDto } from './dto/user.dto';
 
-@ApiTags('Public User')
+@ApiTags('Website User')
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}

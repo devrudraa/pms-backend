@@ -1,15 +1,15 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import type { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import databaseConfig from './config/database.config';
 import { PropertyModule } from './modules/property/property.module';
 import { TenantModule } from './modules/tenant/tenant.module';
 import { UnitModule } from './modules/unit/unit.module';
 import { AuthModule } from './website/auth/auth.module';
 import { PublicWebsiteModule } from './website/public.module';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import databaseConfig from './config/database.config';
 
 @Module({
   imports: [

@@ -10,8 +10,8 @@ import { PropertiesFilterDto } from './dto/property-filter.dto';
 import { PaginatedPropertiesResponseDto } from './dto/property-res.dto';
 import { PropertyService } from './property.service';
 
-@ApiTags('Public Property')
-@Controller('/public/property')
+@ApiTags('Website Property')
+@Controller('property')
 export class PropertyController {
   constructor(private readonly propertyService: PropertyService) {}
 

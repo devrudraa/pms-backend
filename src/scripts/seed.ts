@@ -14,12 +14,23 @@ async function seed() {
     type: 'postgres',
     host: process.env.DATABASE_HOST || 'localhost',
     port: Number(process.env.DATABASE_PORT) || 5432,
-    username: process.env.DATABASE_USER || 'postgres',
-    password: process.env.DATABASE_PASSWORD || 'admin',
-    database: process.env.DATABASE_NAME || 'pms-dev',
+    username: process.env.DATABASE_USER || 'staging',
+    password: process.env.DATABASE_PASSWORD || '!staging_password!',
+    database: process.env.DATABASE_NAME || 'staging',
     entities: [UserEntity, PropertyEntity, Unit],
-    synchronize: false, // Don't synchronize in production
+    synchronize: true,
   });
+
+  //   const dataSource = new DataSource({
+  //     type: 'postgres',
+  //     host: process.env.DATABASE_HOST || 'localhost',
+  //     port: Number(process.env.DATABASE_PORT) || 5432,
+  //     username: process.env.DATABASE_USER || 'staging',
+  //     password: process.env.DATABASE_PASSWORD || '!staging_password!',
+  //     database: process.env.DATABASE_NAME || 'staging',
+  //     entities: [UserEntity, PropertyEntity, Unit],
+  //     synchronize: true,
+  //   });
 
   await dataSource.initialize();
   console.log('Database connected');

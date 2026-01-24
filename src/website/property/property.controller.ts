@@ -1,14 +1,17 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiInternalServerErrorResponse,
   ApiOkResponse,
   ApiOperation,
+  ApiParam,
+  ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
 import { PropertiesFilterDto } from './dto/property-filter.dto';
-import { PaginatedPropertiesResponseDto } from './dto/property-res.dto';
+import { PaginatedPropertiesResponseDto } from './dto/paginated-property-res.dto';
 import { PropertyService } from './property.service';
+import { PropertyResponseDto } from './dto/property-res.dto';
 
 @ApiTags('Website Property')
 @Controller('property')
@@ -42,5 +45,25 @@ export class PropertyController {
   })
   async getProperties(@Query() filter: PropertiesFilterDto) {
     return await this.propertyService.getPaginated(filter);
+  }
+
+  @Get(':id')
+  @ApiOperation({ summary: 'Get property by ID' })
+  @ApiParam({
+    name: 'id',
+    type: String,
+    description: 'Unique property identifier',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Property retrieved successfully',
+    type: PropertyResponseDto,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Property not found',
+  })
+  async getPropertyById(@Param('id') id: string) {
+    return await this.propertyService.getPropertyById(id);
   }
 }

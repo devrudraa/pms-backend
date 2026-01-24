@@ -7,8 +7,8 @@ import {
 import { Repository } from 'typeorm';
 import {
   PaginatedPropertiesResponseDto,
-  PropertyResponseDto,
-} from './dto/property-res.dto';
+  PaginatedPropertyResponseDto,
+} from './dto/paginated-property-res.dto';
 import { Unit } from 'src/modules/unit/unit.entity';
 import { PropertiesFilterDto } from './dto/property-filter.dto';
 
@@ -20,6 +20,22 @@ export class PropertyService {
     @InjectRepository(Unit)
     private readonly unitEntity: Repository<Unit>,
   ) {}
+
+  async getPropertyById(id: string) {
+    return await this.propertyEntity
+      .createQueryBuilder('property')
+      .leftJoin('property.owner', 'owner')
+      .addSelect([
+        'owner.firstName',
+        'owner.lastName',
+        'owner.id',
+        'owner.image',
+      ])
+      .leftJoinAndSelect('property.units', 'unit', 'unit.tenant IS NULL')
+      .where('property.id = :id', { id: id })
+      .andWhere('property.status = :status', { status: PropertyStatus.LISTED })
+      .getOneOrFail();
+  }
 
   async getPaginated(
     filter: PropertiesFilterDto,
@@ -81,7 +97,7 @@ export class PropertyService {
       .take(limit)
       .getManyAndCount();
 
-    const data: PropertyResponseDto[] = properties.map((property) => {
+    const data: PaginatedPropertyResponseDto[] = properties.map((property) => {
       const firstAvailableUnit = property.units ? property.units[0] : null;
       return {
         id: property.id,

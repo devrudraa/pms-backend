@@ -39,6 +39,9 @@ export class UserEntity {
   @Column()
   phoneNumber: string;
 
+  @Column({ type: 'text', nullable: true })
+  image: string | null;
+
   @Column({ type: 'date', nullable: true })
   dob: string | null;
 

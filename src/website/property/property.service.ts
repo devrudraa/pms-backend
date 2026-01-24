@@ -52,6 +52,10 @@ export class PropertyService {
       petFriendly,
       parkingSpace,
       furnished,
+      maxPrice,
+      minPrice,
+      maxSize,
+      minSize,
     } = filter;
 
     const query = this.propertyEntity
@@ -75,6 +79,16 @@ export class PropertyService {
         region: `%${region}%`,
       });
 
+    if (minSize !== undefined)
+      query.andWhere('unit.sizeSqFt >= :minSize', {
+        minSize,
+      });
+
+    if (maxSize !== undefined)
+      query.andWhere('unit.sizeSqFt <= :maxSize', {
+        maxSize,
+      });
+
     if (bedrooms !== undefined)
       query.andWhere('unit.bedrooms = :bedrooms', { bedrooms });
 
@@ -89,6 +103,16 @@ export class PropertyService {
 
     if (furnished !== undefined)
       query.andWhere('unit.furnished = :furnished', { furnished });
+
+    if (minPrice !== undefined)
+      query.andWhere('unit.pricing.rentAmount >= :minPrice', {
+        minPrice,
+      });
+
+    if (maxPrice !== undefined)
+      query.andWhere('unit.pricing.rentAmount <= :maxPrice', {
+        maxPrice,
+      });
 
     const skip = (page - 1) * limit;
     const [properties, total] = await query
@@ -113,6 +137,7 @@ export class PropertyService {
               furnished: firstAvailableUnit.furnished,
               parkingSpace: firstAvailableUnit.parkingSpace,
               price: firstAvailableUnit.pricing?.rentAmount ?? 0,
+              sizeSqFt: firstAvailableUnit.sizeSqFt,
             }
           : null,
       };

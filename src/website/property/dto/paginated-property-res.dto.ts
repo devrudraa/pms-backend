@@ -19,6 +19,9 @@ export class PaginatedPropertyUnitDto {
 
   @ApiProperty({ example: '10000', type: 'number' })
   price: number;
+
+  @ApiProperty({ example: '10000', type: 'number' })
+  sizeSqFt: number;
 }
 
 export class PaginatedPropertyResponseDto {

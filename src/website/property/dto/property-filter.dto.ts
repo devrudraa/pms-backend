@@ -26,6 +26,42 @@ export class PropertiesFilterDto {
   @IsString()
   search?: string;
 
+  @ApiPropertyOptional({
+    description: 'Minimum price filter',
+  })
+  @IsOptional()
+  @Type(() => Number)
+  @IsNumber()
+  @Min(0)
+  minPrice?: number;
+
+  @ApiPropertyOptional({
+    description: 'Maximum price filter',
+  })
+  @IsOptional()
+  @Type(() => Number)
+  @IsNumber()
+  @Min(0)
+  maxPrice?: number;
+
+  @ApiPropertyOptional({
+    description: 'Minimum size filter',
+  })
+  @IsOptional()
+  @Type(() => Number)
+  @IsNumber()
+  @Min(0)
+  minSize?: number;
+
+  @ApiPropertyOptional({
+    description: 'Maximum size filter',
+  })
+  @IsOptional()
+  @Type(() => Number)
+  @IsNumber()
+  @Min(0)
+  maxSize?: number;
+
   @ApiPropertyOptional()
   @IsOptional()
   @IsString()
@@ -60,10 +96,10 @@ export class PropertiesFilterDto {
   petFriendly?: boolean;
 
   @ApiPropertyOptional()
-  @Type(() => Number)
+  @Type(() => Boolean)
   @IsOptional()
-  @IsNumber()
-  parkingSpace?: number;
+  @IsBoolean()
+  parkingSpace?: boolean;
 
   @ApiPropertyOptional()
   @Type(() => Boolean)

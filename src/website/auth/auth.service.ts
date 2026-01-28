@@ -51,8 +51,10 @@ export class AuthService {
       email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,
-      image: 'todo',
+      image: null,
       token: this.signToken(user.id, user.email, user.role).accessToken,
+      id: user.id,
+      role: user.role,
     };
   }
 

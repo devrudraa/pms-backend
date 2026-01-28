@@ -1,11 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsEmail,
-  IsEnum,
-  IsPhoneNumber,
-  IsString,
-  MinLength,
-} from 'class-validator';
+import { IsEmail, IsEnum, IsString, MinLength } from 'class-validator';
 import { UserRole } from 'src/modules/users/user.entity';
 
 export class RegisterDto {
@@ -32,8 +26,12 @@ export class RegisterDto {
   // @IsDateString()
   // dob: string;
 
+  // Just checking if the phone number is string or not
+  // Because it is not mandatory right now
+  // If you want to check if it is a actual phone number
+  // use IsPhoneNumber
   @ApiProperty({ example: '+264 811234567' })
-  @IsPhoneNumber('NA')
+  @IsString()
   phoneNumber: string;
 
   @ApiProperty({ example: 'tenant', enum: UserRole })

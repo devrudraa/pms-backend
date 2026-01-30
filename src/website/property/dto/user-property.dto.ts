@@ -17,7 +17,7 @@ export class ManagerDto {
   @ApiProperty()
   phoneNumber: string;
 
-  @ApiProperty({ nullable: true })
+  @ApiProperty({ type: String, nullable: true })
   image: string | null;
 }
 

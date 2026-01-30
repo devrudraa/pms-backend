@@ -13,6 +13,7 @@ import { PaginatedPropertiesResponseDto } from './dto/paginated-property-res.dto
 import { PropertyService } from './property.service';
 import { PropertyResponseDto } from './dto/property-res.dto';
 import { ManagerPropertiesQueryDto } from './dto/manager-property-query.dto';
+import { PaginatedPropertiesWithManagerResponseDto } from './dto/user-property.dto';
 
 @ApiTags('Website Property')
 @Controller('property')
@@ -78,7 +79,7 @@ export class PropertyController {
   @ApiResponse({
     status: 200,
     description: 'Property retrieved successfully',
-    type: PropertyResponseDto,
+    type: PaginatedPropertiesWithManagerResponseDto,
   })
   @ApiResponse({
     status: 404,

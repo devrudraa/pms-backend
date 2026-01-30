@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import {
   PropertyEntity,
@@ -11,6 +11,8 @@ import {
 } from './dto/paginated-property-res.dto';
 import { Unit } from 'src/modules/unit/unit.entity';
 import { PropertiesFilterDto } from './dto/property-filter.dto';
+import { UserEntity } from 'src/modules/users/user.entity';
+import { PaginatedPropertiesWithManagerResponseDto } from './dto/user-property.dto';
 
 @Injectable()
 export class PropertyService {
@@ -19,22 +21,71 @@ export class PropertyService {
     private readonly propertyEntity: Repository<PropertyEntity>,
     @InjectRepository(Unit)
     private readonly unitEntity: Repository<Unit>,
+    @InjectRepository(UserEntity)
+    private readonly userEntity: Repository<UserEntity>,
   ) {}
 
   async getPropertyById(id: string) {
     return await this.propertyEntity
       .createQueryBuilder('property')
-      .leftJoin('property.owner', 'owner')
+      .leftJoin('property.manager', 'manager')
       .addSelect([
-        'owner.firstName',
-        'owner.lastName',
-        'owner.id',
-        'owner.image',
+        'manager.firstName',
+        'manager.lastName',
+        'manager.id',
+        'manager.image',
+        'manager.phoneNumber',
+        'manager.email',
       ])
       .leftJoinAndSelect('property.units', 'unit', 'unit.tenant IS NULL')
       .where('property.id = :id', { id: id })
       .andWhere('property.status = :status', { status: PropertyStatus.LISTED })
       .getOneOrFail();
+  }
+
+  async getPropertyByUserId(
+    managerId: string,
+    page = 1,
+    limit = 10,
+  ): Promise<PaginatedPropertiesWithManagerResponseDto> {
+    const manager = await this.userEntity.findOne({
+      where: { id: managerId },
+      select: ['id', 'firstName', 'lastName', 'email', 'phoneNumber', 'image'],
+    });
+
+    if (!manager) {
+      throw new NotFoundException('Manager not found');
+    }
+
+    const skip = (page - 1) * limit;
+
+    const [properties, total] = await this.propertyEntity
+      .createQueryBuilder('property')
+      .leftJoin('property.manager', 'manager')
+      .leftJoinAndSelect('property.units', 'unit', 'unit.tenant IS NULL')
+      .where('manager.id = :managerId', { managerId })
+      .andWhere('property.status = :status', {
+        status: PropertyStatus.LISTED,
+      })
+      .orderBy('property.createdAt', 'ASC')
+      .skip(skip)
+      .take(limit)
+      .getManyAndCount();
+
+    const totalPages = Math.ceil(total / limit);
+
+    const propertiesData: PaginatedPropertyResponseDto[] =
+      this.propertyOjectTransform(properties);
+
+    return {
+      manager,
+      data: propertiesData,
+      totalPages,
+      page,
+      limit,
+      isNext: page < totalPages,
+      isPrev: page > 1,
+    };
   }
 
   async getPaginated(
@@ -121,7 +172,24 @@ export class PropertyService {
       .take(limit)
       .getManyAndCount();
 
-    const data: PaginatedPropertyResponseDto[] = properties.map((property) => {
+    const data: PaginatedPropertyResponseDto[] =
+      this.propertyOjectTransform(properties);
+    const totalPages = Math.ceil(total / limit);
+
+    return {
+      data: data,
+      totalPages,
+      page,
+      limit,
+      isNext: page > 1,
+      isPrev: skip + properties.length < total,
+    };
+  }
+
+  private propertyOjectTransform(
+    properties: PropertyEntity[],
+  ): PaginatedPropertyResponseDto[] {
+    return properties.map((property) => {
       const firstAvailableUnit = property.units ? property.units[0] : null;
       return {
         id: property.id,
@@ -142,15 +210,5 @@ export class PropertyService {
           : null,
       };
     });
-    const totalPages = Math.ceil(total / limit);
-
-    return {
-      data: data,
-      totalPages,
-      page,
-      limit,
-      isNext: page > 1,
-      isPrev: skip + properties.length < total,
-    };
   }
 }

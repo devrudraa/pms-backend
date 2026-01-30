@@ -14,9 +14,9 @@ async function seed() {
     type: 'postgres',
     host: process.env.DATABASE_HOST || 'localhost',
     port: Number(process.env.DATABASE_PORT) || 5432,
-    username: process.env.DATABASE_USER || 'staging',
-    password: process.env.DATABASE_PASSWORD || '!staging_password!',
-    database: process.env.DATABASE_NAME || 'staging',
+    username: process.env.DATABASE_USER || 'postgres',
+    password: process.env.DATABASE_PASSWORD || 'admin',
+    database: process.env.DATABASE_NAME || 'pms-dev',
     entities: [UserEntity, PropertyEntity, Unit],
     synchronize: true,
   });
@@ -87,6 +87,7 @@ async function seed() {
     property.title = `Beautiful ${propertyTypes[i % propertyTypes.length]} in ${towns[i % towns.length]}`;
     property.listingType = i % 2 === 0 ? ListingType.RENT : ListingType.SELL;
     property.owner = users[i % users.length];
+    property.manager = users[i % users.length];
     property.status =
       i % 2 === 0 ? PropertyStatus.ACTIVE : PropertyStatus.LISTED;
     property.propertyType = propertyTypes[i % propertyTypes.length];

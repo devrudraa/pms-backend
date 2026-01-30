@@ -12,6 +12,7 @@ import { PropertiesFilterDto } from './dto/property-filter.dto';
 import { PaginatedPropertiesResponseDto } from './dto/paginated-property-res.dto';
 import { PropertyService } from './property.service';
 import { PropertyResponseDto } from './dto/property-res.dto';
+import { ManagerPropertiesQueryDto } from './dto/manager-property-query.dto';
 
 @ApiTags('Website Property')
 @Controller('property')
@@ -65,5 +66,32 @@ export class PropertyController {
   })
   async getPropertyById(@Param('id') id: string) {
     return await this.propertyService.getPropertyById(id);
+  }
+
+  @Get('manager/:managerId')
+  @ApiOperation({ summary: 'Get property by manager ID' })
+  @ApiParam({
+    name: 'managerId',
+    type: String,
+    description: 'Unique user identifier',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Property retrieved successfully',
+    type: PropertyResponseDto,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Property not found',
+  })
+  async getPropertyByUserId(
+    @Param('managerId') managerId: string,
+    @Query() query: ManagerPropertiesQueryDto,
+  ) {
+    return await this.propertyService.getPropertyByUserId(
+      managerId,
+      query.page,
+      query.limit,
+    );
   }
 }

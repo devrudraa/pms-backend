@@ -4,14 +4,14 @@ import {
   PropertyEntity,
   PropertyStatus,
 } from 'src/modules/property/property.entity';
+import { Unit } from 'src/modules/unit/unit.entity';
+import { UserEntity } from 'src/modules/users/user.entity';
 import { Repository } from 'typeorm';
 import {
   PaginatedPropertiesResponseDto,
   PaginatedPropertyResponseDto,
 } from './dto/paginated-property-res.dto';
-import { Unit } from 'src/modules/unit/unit.entity';
 import { PropertiesFilterDto } from './dto/property-filter.dto';
-import { UserEntity } from 'src/modules/users/user.entity';
 import { PaginatedPropertiesWithManagerResponseDto } from './dto/user-property.dto';
 
 @Injectable()

@@ -3,7 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 /* =========================
    Owner DTO
 ========================= */
-export class PropertyOwnerDto {
+export class PropertyManagerDto {
   @ApiProperty({ example: '042f61bf-d7c6-45e3-9ee0-d6e3804adc8c' })
   id: string;
 
@@ -12,6 +12,12 @@ export class PropertyOwnerDto {
 
   @ApiProperty({ example: 'User1' })
   lastName: string;
+
+  @ApiProperty()
+  phoneNumber: string;
+
+  @ApiProperty()
+  email: string;
 
   @ApiProperty({ example: null, nullable: true })
   image: string | null;
@@ -88,8 +94,8 @@ export class PropertyResponseDto {
   @ApiProperty({ example: 'RENT' })
   listingType: string;
 
-  @ApiProperty({ type: PropertyOwnerDto })
-  owner: PropertyOwnerDto;
+  @ApiProperty({ type: PropertyManagerDto })
+  manager: PropertyManagerDto;
 
   @ApiProperty({ example: 'LISTED' })
   status: string;
